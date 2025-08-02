@@ -1,9 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
+ import { useQuery } from "@tanstack/react-query";
+
+interface PortfolioItem {
+  title: string;
+  image: string;
+  description: string;
+}
 
 export default function Portfolio() {
-  const { data: portfolioItems = [], isLoading } = useQuery({
+  const { data: portfolioItems = [], isLoading } = useQuery<PortfolioItem[]>({
     queryKey: ['/api/portfolio'],
-    queryFn: () => fetch('/api/portfolio').then(res => res.json())
+    queryFn: () => fetch('/api/portfolio').then(res => res.json()),
   });
 
   if (isLoading) {
@@ -30,7 +36,7 @@ export default function Portfolio() {
             Showcasing our expertise in tech photography, creative workspaces, and collaborative projects
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {portfolioItems.map((item, index) => (
             <div key={index} className="portfolio-item rounded-xl overflow-hidden fade-in" style={{ backgroundColor: 'var(--dark-secondary)' }}>
